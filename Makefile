@@ -1,3 +1,8 @@
+DOCKER_COMP = docker compose
+
+DOCKER_COMP_EXEC = $(DOCKER_COMP) exec
+
+
 .PHONY: up down restart logs help
 
 help:
@@ -9,19 +14,19 @@ help:
 	@echo "  make build    - Build Docker images"
 
 up:
-	docker-compose up -d
+	$(DOCKER_COMP) up -d
 	@echo "Docker Compose services started"
 
 down:
-	docker-compose down
+	$(DOCKER_COMP) down
 	@echo "Docker Compose services stopped"
 
 restart: down up
 	@echo "Docker Compose services restarted"
 
 logs:
-	docker-compose logs -f
+	$(DOCKER_COMP) logs -f
 
 build:
-	docker-compose build
+	$(DOCKER_COMP) build
 	@echo "Docker images built"
