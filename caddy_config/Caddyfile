@@ -1,0 +1,5 @@
+music.nouabi.engineer {
+    reverse_proxy navidrome:4533 {
+      flush_interval -1
+    }
+}

@@ -1,0 +1,26 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    user: 1000:1000 # should be owner of volumes
+    ports:
+      - "4533:4533"
+    restart: unless-stopped
+    volumes:
+      - "navidrome_data:/data"
+      - "${MUSIC_DIR}:/music:ro"
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    user: 1000:1000 # should be owner of volumes
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - ./caddy_config:/config
+      - ./caddy_config/Caddyfile:/etc/caddy/Caddyfile
+
+volumes:
+  caddy_data:
+    external: true
+  navidrome_data:
