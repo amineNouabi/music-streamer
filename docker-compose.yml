@@ -1,7 +1,6 @@
 services:
   navidrome:
     image: deluan/navidrome:latest
-    user: 1000:1000 # should be owner of volumes
     ports:
       - "4533:4533"
     restart: unless-stopped
@@ -11,7 +10,6 @@ services:
   caddy:
     image: caddy:latest
     restart: unless-stopped
-    user: 1000:1000 # should be owner of volumes
     ports:
       - "80:80"
       - "443:443"
