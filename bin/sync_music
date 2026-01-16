@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# This script transfers music files from a local source directory to a remote destination directory.
+
+
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="${SCRIPT_DIR}/../.env"
+
+# Source .env file with error handling
+if [[ -f "$ENV_FILE" ]]; then
+    set -a  # automatically export all variables
+    source "$ENV_FILE"
+    set +a # stop automatically exporting variables after sourcing
+else
+    echo "Error: .env file not found at $ENV_FILE" >&2
+    exit 1
+fi
+
+# Validate required variables
+required_vars=("LOCAL_MUSIC_DIR" "REMOTE_USER" "REMOTE_HOST" "REMOTE_MUSIC_DIR")
+for var in "${required_vars[@]}"; do
+    if [[ -z "${!var}" ]]; then
+        echo "Error: Required variable $var is not set in .env" >&2
+        exit 1
+    fi
+done
+
+rsync -avz --progress "$LOCAL_MUSIC_DIR/" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_MUSIC_DIR/"
